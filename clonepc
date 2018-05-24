@@ -31,7 +31,8 @@ read repo
 
 echo "echo 'CLONING...'
 git clone https://github.com/$default/$repo.git -q" >> /tmp_file
-echo "sudo rm -rf /Cloned/$repo" >> /delete_if_exist
+echo "sudo rm -rf /$repo
+sudo rm -rf /Cloned/$repo" >> /delete_if_exist
 cd /
 chmod 777 /delete_if_exist
 chown devntnghia /delete_if_exist
@@ -40,7 +41,7 @@ chown devntnghia /tmp_file  #IN iOS, CHANGE "devntnghia" to "root:root"
 chmod 777 /tmp_file
 ./tmp_file && rm -f /tmp_file
 echo "DONE!"
-chown devntnghia /$repo
+chown -R devntnghia /$repo
 if [ ! -d "/Cloned" ]; then
 	mkdir Cloned
 fi
