@@ -1,0 +1,48 @@
+#!/bin/sh
+
+clear
+if [ "$(id -u)" != "0" ]; then
+	echo "Does not have ROOT privilege"
+	exit
+else
+	echo "Have ROOT privilege"
+fi
+
+rm -f /tmp_file
+echo "------------------------------
+WARNING! THIS COMMAND FILE WILL MAKE ABOUT 3 TEMP FILES!
+PLEASE DO NOT DELETE THEM!
+------------------------------"
+if [ -f "/default_user" ]; then
+	default=$(cat /default_user)
+	echo "Default Username is $default"
+else
+	echo -n "Enter default Username (it will save for all session)
+If you want to change this later, navigate to where the file default_user was saved and delete it.
+> "
+	read user
+	echo "Default Username is: $user"
+	echo -n "$user" >> /default_user
+	default=$(cat /default_user)
+fi
+echo -n "Enter the Github Repository link that you want to clone without .git at the end
+> "
+read repo
+
+echo "echo 'CLONING...'
+git clone https://github.com/$default/$repo.git -q" >> /tmp_file
+echo "sudo rm -rf /Cloned/$repo" >> /delete_if_exist
+cd /
+chmod 777 /delete_if_exist
+chown root:wheel /delete_if_exist
+./delete_if_exist && rm -f /delete_if_exist
+chown root:wheel /tmp_file
+chmod 777 /tmp_file
+./tmp_file && rm -f /tmp_file
+echo "DONE!"
+chown root:wheel /$repo
+if [ ! -d "/Cloned" ]; then
+	mkdir Cloned
+fi
+mv -f $repo /Cloned
+echo "Your cloned repo should be /Cloned/$repo"
