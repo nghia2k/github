@@ -8,7 +8,7 @@ else
 	echo "Have ROOT privilege"
 fi
 
-rm -f /var/mobile/tmp_file
+rm -f /home/devntnghia/.tmp_file
 echo "------------------------------
 WARNING! THIS COMMAND FILE WILL MAKE ABOUT 3 TEMP FILES!
 PLEASE DO NOT DELETE THEM!
@@ -25,20 +25,23 @@ If you want to change this later, navigate to where the file default_user was sa
 	echo -n "$user" >> /home/devntnghia/.default_user
 	default=$(cat /home/devntnghia/.default_user)
 fi
+
 echo -n "Enter the Github Repository link that you want to clone without .git at the end
 > "
 read repo
 
 echo "echo 'CLONING...'
-git clone https://github.com/$default/$repo.git -q" >> /home/devntnghia/tmp_file
-echo "sudo rm -rf /var/mobile/$repo" >> /home/devntnghia/delete_if_exist
+git clone https://github.com/$default/$repo.git -q" >> /home/devntnghia/.tmp_file
+echo "sudo rm -rf /home/devntnghia/$repo
+sudo rm -rf /home/devntnghia/Desktop/$repo" >> /home/devntnghia/.delete_if_exist
 cd /home/devntnghia
-chmod 777 delete_if_exist
-chown devntnghia delete_if_exist
-./delete_if_exist && rm -f delete_if_exist
-chown devntnghia tmp_file
-chmod 777 tmp_file
-./tmp_file && rm -f tmp_file
+chmod 777 .delete_if_exist
+chown devntnghia .delete_if_exist
+./.delete_if_exist && rm -f .delete_if_exist
+chown devntnghia .tmp_file
+chmod 777 .tmp_file
+./.tmp_file && rm -f .tmp_file
 echo "DONE!"
-chown -R devntnghia /home/devntnghia/$repo
-echo "Your cloned repo should be /home/devntnghia/$repo"
+mv -f /home/devntnghia/$repo /home/devntnghia/Desktop
+chown -R devntnghia /home/devntnghia/Desktop/$repo
+echo "Your cloned repo should be /home/devntnghia/Desktop/$repo"

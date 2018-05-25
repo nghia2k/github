@@ -25,20 +25,23 @@ If you want to change this later, navigate to where the file default_user was sa
 	echo -n "$user" >> /var/mobile/.default_user
 	default=$(cat /var/mobile/.default_user)
 fi
+
 echo -n "Enter the Github Repository link that you want to clone without .git at the end
 > "
 read repo
 
 echo "echo 'CLONING...'
-git clone https://github.com/$default/$repo.git -q" >> /var/mobile/tmp_file
-echo "sudo rm -rf /var/mobile/$repo" >> /var/mobile/delete_if_exist
+git clone https://github.com/$default/$repo.git -q" >> /var/mobile/.tmp_file
+echo "sudo rm -rf /var/mobile/$repo
+sudo rm -rf /var/mobile/Cloned/$repo" >> /var/mobile/.delete_if_exist
 cd /var/mobile
-chmod 777 delete_if_exist
-chown root:wheel delete_if_exist
-./delete_if_exist && rm -f delete_if_exist
-chown root:wheel tmp_file
-chmod 777 tmp_file
-./tmp_file && rm -f tmp_file
+chmod 777 .delete_if_exist
+chown root:wheel .delete_if_exist
+./.delete_if_exist && rm -f .delete_if_exist
+chown root:wheel .tmp_file
+chmod 777 .tmp_file
+./.tmp_file && rm -f .tmp_file
 echo "DONE!"
-chown -R root:wheel /var/mobile/$repo
-echo "Your cloned repo should be /var/mobile/$repo"
+mv -f /var/mobile/$repo /var/mobile/Cloned
+chown -R root:wheel /var/mobile/Cloned/$repo
+echo "Your cloned repo should be /home/devntnghia/Desktop/$repo"
