@@ -44,4 +44,4 @@ chmod 777 .tmp_file
 echo "DONE!"
 mv -f /var/mobile/$repo /var/mobile/Cloned
 chown -R root:wheel /var/mobile/Cloned/$repo
-echo "Your cloned repo should be /home/devntnghia/Desktop/$repo"
+echo "Your cloned repo should be /var/mobile/Cloned/$repo"
